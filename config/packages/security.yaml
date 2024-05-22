@@ -14,6 +14,13 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        api:
+            pattern: ^/api/
+            lazy: true
+            stateless: true
+            access_token:
+                token_extractors: App\Security\AccessTokenExtractor
+                token_handler: App\Security\AccessTokenHandler
         main:
             lazy: true
             provider: app_user_provider

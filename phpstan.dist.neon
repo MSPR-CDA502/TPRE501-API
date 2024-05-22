@@ -8,6 +8,9 @@ parameters:
         - src/
         - tests/
 
+    excludePaths:
+        - src/Doctrine/UserOwnedExtension.php
+
     symfony:
         containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
 

@@ -69,7 +69,7 @@ class CustomAuthenticator extends AbstractAuthenticator
         return new RedirectResponse($url);
     }
 
-    public function start(Request $request, AuthenticationException $authException = null): Response
+    public function start(Request $request, ?AuthenticationException $authException = null): Response
     {
         $url = $this->getLoginUrl($request);
 

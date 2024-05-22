@@ -2,6 +2,7 @@ api_platform:
     title: Arosa'Je
     version: 1.0.0
     formats:
+        multipart: ['multipart/form-data']
         jsonld: ['application/ld+json']
     docs_formats:
         jsonld: ['application/ld+json']
@@ -15,4 +16,9 @@ api_platform:
             standard_put: true
             rfc_7807_compliant_errors: true
     keep_legacy_inflector: false
-    use_symfony_listeners: true
+    use_symfony_listeners: false
+    swagger:
+        api_keys:
+            EMAIL:
+                name: Authorization
+                type: header

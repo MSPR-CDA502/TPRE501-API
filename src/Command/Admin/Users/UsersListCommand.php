@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Command;
+namespace App\Command\Admin\Users;
 
 use App\Repository\UserRepository;
 use Symfony\Component\Console\Attribute\AsCommand;
