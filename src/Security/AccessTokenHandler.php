@@ -17,7 +17,6 @@ class AccessTokenHandler implements AccessTokenHandlerInterface
 
     public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        dump('here', $accessToken);
         $accessToken = $this->repository->findOneBy(['email' => $accessToken]);
         if (null === $accessToken) {
             throw new BadCredentialsException('Invalid credentials.');

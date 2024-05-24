@@ -53,6 +53,9 @@ class User implements UserInterface
     #[ORM\Column(length: 255)]
     private ?string $displayName = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $keycloackId = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -177,6 +180,18 @@ class User implements UserInterface
     public function setDisplayName(string $displayName): static
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getKeycloackId(): ?string
+    {
+        return $this->keycloackId;
+    }
+
+    public function setKeycloackId(?string $keycloackId): static
+    {
+        $this->keycloackId = $keycloackId;
 
         return $this;
     }
