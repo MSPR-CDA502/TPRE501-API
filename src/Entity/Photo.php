@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[Vich\Uploadable]
 #[ApiResource(
-    normalizationContext: ['groups' => ['media_object:read']],
+    normalizationContext: ['groups' => ['photo:read']],
     types: ['https://schema.org/MediaObject'],
     outputFormats: ['jsonld' => ['application/ld+json']],
 )]
@@ -30,7 +30,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Post(
     inputFormats: ['multipart' => ['multipart/form-data']],
     processor: SavePhoto::class,
-    validationContext: ['groups' => ['Default', 'media_object_create']],
+    validationContext: ['groups' => ['Default', 'photo_create']],
     deserialize: false,
     openapi: new Model\Operation(
         requestBody: new Model\RequestBody(
@@ -60,7 +60,7 @@ class Photo
     private ?int $id = null;
 
     #[Vich\UploadableField(mapping: 'photos', fileNameProperty: 'name', size: 'size')]
-    #[Assert\NotNull(groups: ['media_object_create'])]
+    #[Assert\NotNull(groups: ['photo_create'])]
     private ?File $file = null;
 
     #[ORM\Column(nullable: true)]
@@ -70,11 +70,14 @@ class Photo
     private ?int $size = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]
-    #[Groups(['media_object:read'])]
+    #[Groups(['photo:read'])]
     public ?string $contentUrl = null;
 
     #[ORM\Column(type: Types::DATE_IMMUTABLE, nullable: true)]
     private ?\DateTimeInterface $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'photos')]
+    private ?Plant $plant = null;
 
     public function getId(): ?int
     {
@@ -132,6 +135,18 @@ class Photo
     public function setUpdatedAt(\DateTimeInterface $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getPlant(): ?Plant
+    {
+        return $this->plant;
+    }
+
+    public function setPlant(?Plant $plant): static
+    {
+        $this->plant = $plant;
 
         return $this;
     }

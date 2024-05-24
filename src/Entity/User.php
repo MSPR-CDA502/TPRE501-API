@@ -50,6 +50,9 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: Plant::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $plants;
 
+    #[ORM\Column(length: 255)]
+    private ?string $displayName = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -162,6 +165,18 @@ class User implements UserInterface
     public function removePlant(Plant $plant): static
     {
         $this->plants->removeElement($plant);
+
+        return $this;
+    }
+
+    public function getDisplayName(): ?string
+    {
+        return $this->displayName;
+    }
+
+    public function setDisplayName(string $displayName): static
+    {
+        $this->displayName = $displayName;
 
         return $this;
     }
