@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -29,6 +30,7 @@ class User implements UserInterface
     #[ORM\Column]
     private int $id;
 
+    #[Assert\Email()]
     #[ORM\Column(length: 180)]
     private string $email;
 
@@ -50,13 +52,24 @@ class User implements UserInterface
     #[ORM\OneToMany(targetEntity: Plant::class, mappedBy: 'owner', orphanRemoval: true)]
     private Collection $plants;
 
+    #[Assert\NotBlank()]
     #[ORM\Column(length: 255)]
-    private ?string $displayName = null;
+    private string $displayName;
+
+    #[ORM\Column]
+    private \DateTimeImmutable $birthdate;
+
+    /**
+     * @var Collection<int, Address>
+     */
+    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user', orphanRemoval: true)]
+    private Collection $addresses;
 
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->plants = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): int
@@ -169,7 +182,7 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getDisplayName(): ?string
+    public function getDisplayName(): string
     {
         return $this->displayName;
     }
@@ -177,6 +190,48 @@ class User implements UserInterface
     public function setDisplayName(string $displayName): static
     {
         $this->displayName = $displayName;
+
+        return $this;
+    }
+
+    public function getBirthdate(): \DateTimeImmutable
+    {
+        return $this->birthdate;
+    }
+
+    public function setBirthdate(\DateTimeImmutable $birthdate): static
+    {
+        $this->birthdate = $birthdate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Address>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(Address $address): static
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddress(Address $address): static
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getUser() === $this) {
+                $address->setUser(null);
+            }
+        }
 
         return $this;
     }

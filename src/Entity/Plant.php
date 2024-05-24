@@ -51,6 +51,10 @@ class Plant
     #[ORM\OneToMany(targetEntity: Photo::class, mappedBy: 'plant')]
     private Collection $photos;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Address $address = null;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -123,6 +127,18 @@ class Plant
                 $photo->setPlant(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): static
+    {
+        $this->address = $address;
 
         return $this;
     }
