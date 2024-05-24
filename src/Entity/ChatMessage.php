@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Api\UrlGeneratorInterface;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -16,7 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ChatMessageRepository::class)]
 #[UserOwned(property: 'sender')]
-#[ApiResource()]
+#[ApiResource(mercure: [
+    'private' => true,
+    'topics' => [
+        '@=iri(object.getSender()) ~ "?topic=" ~ escape(iri(object))',
+    ],
+])]
 #[GetCollection()]
 #[Post()]
 #[Get()]
