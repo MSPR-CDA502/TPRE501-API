@@ -20,8 +20,25 @@ services:
       - host.docker.internal:host-gateway
     tty: true
 
+  keycloak:
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###
 
 ###> doctrine/doctrine-bundle ###
 ###< doctrine/doctrine-bundle ###
+
+###> symfony/mailer ###
+  mailer:
+    image: axllent/mailpit
+    restart: unless-stopped
+    ports:
+      - 1025:1025
+      - 8025:8025
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+###< symfony/mailer ###

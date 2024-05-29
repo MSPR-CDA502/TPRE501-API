@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Get(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Put(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Patch(security: "is_granted('ROLE_ADMIN') or object == user")]
-class User implements UserInterface
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

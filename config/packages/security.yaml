@@ -4,11 +4,8 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        # used to reload user from session & other features (e.g. switch_user)
-        app_user_provider:
-            entity:
-                class: App\Entity\User
-                property: email
+        mainick_keycloak_user_provider:
+            id: Mainick\KeycloakClientBundle\Security\User\KeycloakUserProvider
 
     firewalls:
         dev:
@@ -23,19 +20,15 @@ security:
                 token_handler: App\Security\AccessTokenHandler
         main:
             lazy: true
-            provider: app_user_provider
-            custom_authenticators:
-                - App\Security\CustomAuthenticator
+            provider: mainick_keycloak_user_provider
+            entry_point: Mainick\KeycloakClientBundle\Security\EntryPoint\KeycloakAuthenticationEntryPoint
+            custom_authenticator:
+                - Mainick\KeycloakClientBundle\Security\Authenticator\KeycloakAuthenticator
             logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
+                path: mainick_keycloak_security_auth_logout
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#the-firewall
-
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
+    role_hierarchy:
+        ROLE_ADMIN: ROLE_USER
 
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
