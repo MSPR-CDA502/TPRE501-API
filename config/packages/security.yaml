@@ -5,7 +5,8 @@ security:
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         mainick_keycloak_user_provider:
-            id: Mainick\KeycloakClientBundle\Security\User\KeycloakUserProvider
+            # id: Mainick\KeycloakClientBundle\Security\User\KeycloakUserProvider
+            id: App\Security\CustomUserProvider
 
     firewalls:
         dev:
@@ -23,7 +24,8 @@ security:
             provider: mainick_keycloak_user_provider
             entry_point: Mainick\KeycloakClientBundle\Security\EntryPoint\KeycloakAuthenticationEntryPoint
             custom_authenticator:
-                - Mainick\KeycloakClientBundle\Security\Authenticator\KeycloakAuthenticator
+                # - Mainick\KeycloakClientBundle\Security\Authenticator\KeycloakAuthenticator
+                - App\Security\CustomAunthenticator
             logout:
                 path: mainick_keycloak_security_auth_logout
 

@@ -12,6 +12,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Mainick\KeycloakClientBundle\Token\KeycloakResourceOwner;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -23,7 +24,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Get(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Put(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Patch(security: "is_granted('ROLE_ADMIN') or object == user")]
-class User
+class User implements UserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -64,6 +65,8 @@ class User
      */
     #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user', orphanRemoval: true)]
     private Collection $addresses;
+
+    private ?KeycloakResourceOwner $keycloakResourceOwner = null;
 
     public function __construct()
     {
@@ -232,6 +235,18 @@ class User
                 $address->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getKeycloakResourceOwner(): ?KeycloakResourceOwner
+    {
+        return $this->keycloakResourceOwner;
+    }
+
+    public function setKeycloakResourceOwner(?KeycloakResourceOwner $keycloakResourceOwner): static
+    {
+        $this->keycloakResourceOwner = $keycloakResourceOwner;
 
         return $this;
     }

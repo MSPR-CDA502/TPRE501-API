@@ -3,26 +3,29 @@
 namespace App\Security;
 
 use App\Repository\UserRepository;
-use Symfony\Component\Security\Core\Exception\BadCredentialsException;
+use Mainick\KeycloakClientBundle\Interface\IamClientInterface;
+use Mainick\KeycloakClientBundle\Token\AccessToken;
 use Symfony\Component\Security\Http\AccessToken\AccessTokenHandlerInterface;
 use Symfony\Component\Security\Http\Authenticator\Passport\Badge\UserBadge;
 
 class AccessTokenHandler implements AccessTokenHandlerInterface
 {
     public function __construct(
-        private UserRepository $repository
+        private UserRepository $repository,
+        private readonly IamClientInterface $iamClient,
+        private readonly CustomUserProvider $userProvider,
     ) {
-        dump('construct');
     }
 
     public function getUserBadgeFrom(string $accessToken): UserBadge
     {
-        dump('here', $accessToken);
-        $accessToken = $this->repository->findOneBy(['email' => $accessToken]);
-        if (null === $accessToken) {
-            throw new BadCredentialsException('Invalid credentials.');
-        }
+        $token = new AccessToken();
+        $token
+            ->setToken($accessToken)
+            ->setRefreshToken('')
+            ->setExpires(3600)
+            ->setValues([]);
 
-        return new UserBadge($accessToken->getEmail());
+        return new UserBadge($accessToken, fn () => $this->userProvider->loadUserByIdentifier($token));
     }
 }

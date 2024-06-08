@@ -36,9 +36,11 @@ services:
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.4
     restart: unless-stopped
+    volumes:
+      - $PWD/keycloak/realms:/opt/keycloak/data/import
     ports:
       - 8080:8080
-    command: "start-dev"
+    command: ["start-dev", "--import-realm"]
 # Mercure is installed as a Caddy module, prevent the Flex recipe from installing another service
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

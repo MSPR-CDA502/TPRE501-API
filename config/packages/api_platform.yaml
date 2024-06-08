@@ -18,6 +18,6 @@ api_platform:
     use_symfony_listeners: false
     swagger:
         api_keys:
-            EMAIL:
-                name: Authorization
+            token:
+                name: X-Auth-Token
                 type: header
