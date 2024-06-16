@@ -20,10 +20,10 @@ services:
       - host.docker.internal:host-gateway
     tty: true
 
-  keycloak:
-    environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+  # keycloak:
+  #   environment:
+  #     KEYCLOAK_ADMIN: admin
+  #     KEYCLOAK_ADMIN_PASSWORD: admin
 
 ###> symfony/mercure-bundle ###
 ###< symfony/mercure-bundle ###

@@ -15,9 +15,9 @@ api_platform:
             standard_put: true
             rfc_7807_compliant_errors: true
     keep_legacy_inflector: false
-    use_symfony_listeners: false
+    use_symfony_listeners: true
     swagger:
         api_keys:
             token:
-                name: X-Auth-Token
+                name: 'Authorization'
                 type: header

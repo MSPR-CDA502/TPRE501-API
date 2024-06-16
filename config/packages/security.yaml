@@ -24,7 +24,6 @@ security:
             provider: mainick_keycloak_user_provider
             entry_point: Mainick\KeycloakClientBundle\Security\EntryPoint\KeycloakAuthenticationEntryPoint
             custom_authenticator:
-                # - Mainick\KeycloakClientBundle\Security\Authenticator\KeycloakAuthenticator
                 - App\Security\CustomAunthenticator
             logout:
                 path: mainick_keycloak_security_auth_logout

@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Api\MeUserController;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -24,6 +25,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[Get(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Put(security: "is_granted('ROLE_ADMIN') or object == user")]
 #[Patch(security: "is_granted('ROLE_ADMIN') or object == user")]
+#[Get(
+    name: "Me endpoint",
+    uriTemplate: "/me",
+    controller: MeUserController::class,
+    read: false
+)]
 class User implements UserInterface
 {
     #[ORM\Id]
