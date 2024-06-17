@@ -2,11 +2,25 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
+use App\Doctrine\UserOwned;
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
+#[UserOwned(property: 'user')]
+#[ApiResource(security: "is_granted('ROLE_USER')")]
+#[GetCollection(security: "is_granted('ROLE_USER')")]
+#[Post(security: "is_granted('ROLE_USER')")]
+#[Get(security: "is_granted('ROLE_ADMIN') or object.user == user")]
+#[Put(security: "is_granted('ROLE_ADMIN') or object.user == user")]
+#[Patch(security: "is_granted('ROLE_ADMIN') or object.user == user")]
 class Address
 {
     #[ORM\Id]

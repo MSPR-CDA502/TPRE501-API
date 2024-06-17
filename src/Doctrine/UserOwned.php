@@ -2,7 +2,7 @@
 
 namespace App\Doctrine;
 
-#[\Attribute(\Attribute::TARGET_CLASS | \Attribute::IS_REPEATABLE)]
+#[\Attribute(\Attribute::TARGET_CLASS)]
 final class UserOwned
 {
     public function __construct(
