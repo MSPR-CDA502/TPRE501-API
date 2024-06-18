@@ -18,9 +18,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(security: "is_granted('ROLE_USER')")]
 #[GetCollection(security: "is_granted('ROLE_USER')")]
 #[Post(security: "is_granted('ROLE_USER')")]
-#[Get(security: "is_granted('ROLE_ADMIN') or object.user == user")]
-#[Put(security: "is_granted('ROLE_ADMIN') or object.user == user")]
-#[Patch(security: "is_granted('ROLE_ADMIN') or object.user == user")]
+#[Get(security: "is_granted('ROLE_ADMIN') or object.getUser() == user")]
+#[Put(security: "is_granted('ROLE_ADMIN') or object.getUser() == user")]
+#[Patch(security: "is_granted('ROLE_ADMIN') or object.getUser() == user")]
 class Address
 {
     #[ORM\Id]

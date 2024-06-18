@@ -34,7 +34,9 @@ class UsersCreateCommand extends Command
         $email = $input->getArgument('email');
 
         $user = (new User())
-            ->setEmail($email);
+            ->setEmail($email)
+            ->setDisplayName($email)
+            ->setBirthdate(new \DateTimeImmutable());
 
         $this->em->persist($user);
         $this->em->flush();
