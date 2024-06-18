@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Address
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
     private ?int $id = null;
 

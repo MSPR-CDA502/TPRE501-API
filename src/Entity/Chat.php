@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Chat
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
     #[ORM\Column]
     private ?int $id = null;
 
